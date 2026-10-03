@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خريطة الكورس — 14 محاضرة Frontend | STA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0e1117;
+  --bg2:      #161b25;
+  --bg3:      #1e2535;
+  --border:   #2a3347;
+  --gold:     #d4920a;
+  --gold2:    #f0b429;
+  --cream:    #eae6de;
+  --cream2:   #c4bfb5;
+  --dim:      #7a8095;
+  --green:    #3ecf8e;
+  --blue:     #5b8af5;
+  --coral:    #f08878;
+  --purple:   #b07bf5;
+  --mono:     'JetBrains Mono', monospace;
+  --sans:     'Cairo', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:15px;line-height:1.8;min-height:100vh}
+
+/* ── HEADER ── */
+.site-header{
+  background:linear-gradient(135deg,#0a0f1a 0%,#151d2f 100%);
+  border-bottom:2px solid var(--gold);
+  padding:28px 32px 22px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.logo-mark{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.site-header h1{font-size:clamp(18px,3vw,26px);font-weight:900;color:#fff;line-height:1.2}
+.site-header h1 span{color:var(--gold2)}
+.header-badge{
+  font-family:var(--mono);font-size:11px;letter-spacing:1.5px;
+  background:rgba(212,146,10,.12);border:1px solid rgba(212,146,10,.3);
+  color:var(--gold2);padding:7px 16px;border-radius:20px;
+}
+
+/* ── LAYOUT ── */
+.wrapper{max-width:1200px;margin:0 auto;padding:40px 24px 80px}
+
+/* ── INTRO NOTE ── */
+.intro-note{
+  background:var(--bg2);border:1px solid var(--border);border-right:4px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:36px;
+  font-size:14.5px;color:var(--cream2);line-height:1.75;
+}
+.intro-note strong{color:var(--gold2)}
+
+/* ── TRACK LABELS ── */
+.track-sep{
+  display:flex;align-items:center;gap:14px;margin:40px 0 20px;
+}
+.track-line{flex:1;height:1px;background:var(--border)}
+.track-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 14px;border-radius:20px;white-space:nowrap;
+}
+.track-html{background:rgba(240,136,120,.12);color:var(--coral);border:1px solid rgba(240,136,120,.25)}
+.track-css {background:rgba(91,138,245,.12);color:var(--blue);border:1px solid rgba(91,138,245,.25)}
+.track-final{background:rgba(176,123,245,.12);color:var(--purple);border:1px solid rgba(176,123,245,.25)}
+
+/* ── LECTURE CARD ── */
+.lecture-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  margin-bottom:20px;overflow:hidden;
+  transition:border-color .25s,box-shadow .25s;
+}
+.lecture-card:hover{border-color:rgba(212,146,10,.4);box-shadow:0 4px 24px rgba(0,0,0,.4)}
+
+.card-head{
+  display:flex;align-items:flex-start;gap:16px;padding:20px 22px 18px;
+  cursor:pointer;user-select:none;
+}
+.lec-num{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  background:var(--gold);color:#0a0f1a;border-radius:6px;
+  padding:3px 9px;flex-shrink:0;margin-top:3px;
+}
+.lec-num.css{background:var(--blue);color:#fff}
+.lec-num.final{background:var(--purple);color:#fff}
+.lec-info{flex:1}
+.lec-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px}
+.lec-sub{font-size:13px;color:var(--dim);font-family:var(--mono)}
+.toggle-icon{font-size:18px;color:var(--dim);flex-shrink:0;margin-top:2px;transition:transform .3s}
+.lecture-card.open .toggle-icon{transform:rotate(180deg)}
+
+.card-body{display:none;border-top:1px solid var(--border)}
+.lecture-card.open .card-body{display:block}
+
+/* ── TOPICS LIST ── */
+.topics-wrap{padding:18px 22px 0}
+.topics-title{
+  font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;
+}
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:7px;margin-bottom:18px}
+.topic-chip{
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:7px;padding:7px 12px;
+  font-size:13px;color:var(--cream2);
+  display:flex;align-items:center;gap:8px;
+}
+.topic-chip::before{content:'›';color:var(--gold2);font-weight:900;flex-shrink:0}
+
+/* ── CODE EXAMPLE ── */
+.code-section{background:var(--bg);border-top:1px solid var(--border);padding:0}
+.code-toolbar{
+  background:var(--bg3);padding:9px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.code-dots{display:flex;gap:6px}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.d1{background:#f08878}.d2{background:#f0b429}.d3{background:#3ecf8e}
+.code-lang{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:1.5px}
+pre{
+  background:var(--bg);color:#c9d1d9;
+  font-family:var(--mono);font-size:12.5px;line-height:1.75;
+  padding:18px 22px;overflow-x:auto;tab-size:2;
+}
+/* syntax */
+.xt{color:#f08878}  /* tag */
+.xa{color:#3ecf8e}  /* attr */
+.xv{color:#f0b429}  /* value / string */
+.xc{color:#6b778a;font-style:italic}  /* comment */
+.xp{color:#6b778a}  /* punctuation */
+
+/* ── CONCEPT NOTE ── */
+.concept-note{
+  margin:0 22px 18px;padding:12px 16px;
+  background:rgba(212,146,10,.07);border-right:3px solid var(--gold);
+  border-radius:0 8px 8px 0;
+  font-size:13.5px;color:var(--cream2);line-height:1.7;
+}
+.concept-note strong{color:var(--gold2)}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;padding:28px;
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);border-top:1px solid var(--border);
+}
+footer span{color:var(--gold)}
+
+@media(max-width:640px){
+  .card-head{flex-wrap:wrap}
+  .topics-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo-mark">Sunshine T Academy · Frontend Track</div>
+    <h1>خريطة كورس الـ <span>Frontend</span> في 14 محاضرة</h1>
+  </div>
+  <div class="header-badge">موجز تنفيذي مع مثال كود</div>
+</header>
+
+<div class="wrapper">
+
+  <div class="intro-note">
+    كل بطاقة تقلها من نظرة واحدة: <strong>إيه اللي بيتشرح</strong> + <strong>مثال كود فوري</strong> يجمع كل أفكار المحاضرة في صفحة واحدة سليمة تشتغل مباشرة في المتصفح. افتح البطاقة، افتح الكود، وأنت عارف المحاضرة كلها.
+  </div>
+
+  <!-- ════════ HTML TRACK ════════ -->
+  <div class="track-sep">
+    <div class="track-line"></div>
+    <div class="track-label track-html">🏗️ مسار HTML — المحاضرات 1 → 5</div>
+    <div class="track-line"></div>
+  </div>
+
+  <!-- ── L01 ── -->
+  <div class="lecture-card open" id="l01">
+    <div class="card-head" onclick="toggle('l01')">
+      <span class="lec-num">L01</span>
+      <div class="lec-info">
+        <div class="lec-title">هيكل صفحة HTML والعناصر النصية الأساسية</div>
+        <div class="lec-sub">DOCTYPE · head · body · h1→h6 · p · b · i · u · em · strong · br · hr</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">&lt;!DOCTYPE html&gt; — إعلان HTML5</div>
+          <div class="topic-chip">&lt;html lang dir&gt; — جذر الصفحة</div>
+          <div class="topic-chip">&lt;head&gt; — معلومات غير مرئية</div>
+          <div class="topic-chip">&lt;title&gt; — عنوان التاب</div>
+          <div class="topic-chip">&lt;meta charset&gt; — دعم العربية</div>
+          <div class="topic-chip">&lt;body&gt; — المحتوى الظاهر</div>
+          <div class="topic-chip">h1→h6 — تسلسل العناوين</div>
+          <div class="topic-chip">&lt;p&gt; — الفقرات</div>
+          <div class="topic-chip">&lt;b&gt; vs &lt;strong&gt; — سمك الخط</div>
+          <div class="topic-chip">&lt;i&gt; vs &lt;em&gt; — مائل</div>
+          <div class="topic-chip">&lt;u&gt; — تسطير</div>
+          <div class="topic-chip">&lt;br&gt; — سطر جديد</div>
+          <div class="topic-chip">&lt;hr&gt; — فاصل أفقي</div>
+        </div>
+        <div class="concept-note">
+          <strong>الفكرة الجوهرية:</strong> HTML مش لغة برمجة — هي لغة <em>وصف</em>. بتقول للمتصفح "إيه" الموجود في الصفحة. الفرق بين &lt;b&gt; و&lt;strong&gt; = مجرد تنسيق VS معنى دلالي. &lt;em&gt; مهم لقارئات الشاشة. &lt;br&gt; للضرورة فقط.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L01 كامل</span>
+        </div>
+        <pre><span class="xt">&lt;!DOCTYPE html&gt;</span>
+<span class="xt">&lt;html</span> <span class="xa">lang</span><span class="xp">=</span><span class="xv">"ar"</span> <span class="xa">dir</span><span class="xp">=</span><span class="xv">"rtl"</span><span class="xt">&gt;</span>
+
+<span class="xt">&lt;head&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">charset</span><span class="xp">=</span><span class="xv">"UTF-8"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"viewport"</span> <span class="xa">content</span><span class="xp">=</span><span class="xv">"width=device-width, initial-scale=1.0"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;title&gt;</span>أول صفحة HTML<span class="xt">&lt;/title&gt;</span>
+<span class="xt">&lt;/head&gt;</span>
+
+<span class="xt">&lt;body&gt;</span>
+
+  <span class="xc">&lt;!-- العناوين h1 → h6 تسلسل هرمي --&gt;</span>
+  <span class="xt">&lt;h1&gt;</span>مرحبًا بك في Sunshine T Academy<span class="xt">&lt;/h1&gt;</span>
+  <span class="xt">&lt;h2&gt;</span>كورس Frontend Level 1<span class="xt">&lt;/h2&gt;</span>
+  <span class="xt">&lt;h3&gt;</span>المحاضرة الأولى<span class="xt">&lt;/h3&gt;</span>
+
+  <span class="xc">&lt;!-- فاصل مرئي --&gt;</span>
+  <span class="xt">&lt;hr&gt;</span>
+
+  <span class="xc">&lt;!-- فقرات النص --&gt;</span>
+  <span class="xt">&lt;p&gt;</span>
+    HTML هي <span class="xt">&lt;strong&gt;</span>لغة توصيف<span class="xt">&lt;/strong&gt;</span> — مش لغة برمجة.
+    بتحدد <span class="xt">&lt;em&gt;</span>هيكل ومحتوى<span class="xt">&lt;/em&gt;</span> الصفحة.
+  <span class="xt">&lt;/p&gt;</span>
+
+  <span class="xt">&lt;p&gt;</span>
+    النص <span class="xt">&lt;b&gt;</span>بولد تنسيق بس<span class="xt">&lt;/b&gt;</span> ·
+    النص <span class="xt">&lt;strong&gt;</span>بولد + معنى مهم<span class="xt">&lt;/strong&gt;</span> ·
+    النص <span class="xt">&lt;i&gt;</span>مائل تنسيق<span class="xt">&lt;/i&gt;</span> ·
+    النص <span class="xt">&lt;em&gt;</span>مائل + تأكيد<span class="xt">&lt;/em&gt;</span> ·
+    النص <span class="xt">&lt;u&gt;</span>مسطور<span class="xt">&lt;/u&gt;</span>
+  <span class="xt">&lt;/p&gt;</span>
+
+  <span class="xc">&lt;!-- سطر جديد داخل فقرة --&gt;</span>
+  <span class="xt">&lt;p&gt;</span>
+    السطر الأول<span class="xt">&lt;br&gt;</span>
+    السطر الثاني في نفس الفقرة
+  <span class="xt">&lt;/p&gt;</span>
+
+  <span class="xt">&lt;hr&gt;</span>
+  <span class="xt">&lt;p&gt;</span>اكتب كودك — اللي تتعلمه النهارده هيبقى أساسك كله.<span class="xt">&lt;/p&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span>
+<span class="xt">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L02 ── -->
+  <div class="lecture-card" id="l02">
+    <div class="card-head" onclick="toggle('l02')">
+      <span class="lec-num">L02</span>
+      <div class="lec-info">
+        <div class="lec-title">الروابط والصور والقوائم</div>
+        <div class="lec-sub">a · href · target · img · src · alt · ul · ol · li · dl</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">&lt;a href&gt; — رابط نصي</div>
+          <div class="topic-chip">target="_blank" — تاب جديدة</div>
+          <div class="topic-chip">الروابط الداخلية vs الخارجية</div>
+          <div class="topic-chip">&lt;img src alt width&gt;</div>
+          <div class="topic-chip">alt — SEO + Accessibility</div>
+          <div class="topic-chip">&lt;ul&gt; — قائمة نقط</div>
+          <div class="topic-chip">&lt;ol&gt; — قائمة أرقام</div>
+          <div class="topic-chip">&lt;li&gt; — عنصر القائمة</div>
+          <div class="topic-chip">قوائم متداخلة Nested</div>
+          <div class="topic-chip">&lt;dl dt dd&gt; — قائمة وصفية</div>
+        </div>
+        <div class="concept-note">
+          <strong>القاعدة:</strong> alt مش اختياري — هو نص بديل لمحركات البحث والمكفوفين. target="_blank" دايما مع <strong>rel="noopener"</strong> للأمان. الصور Self-closing.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L02</span>
+        </div>
+        <pre><span class="xt">&lt;body&gt;</span>
+
+  <span class="xc">&lt;!-- روابط --&gt;</span>
+  <span class="xt">&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"about.html"</span><span class="xt">&gt;</span>رابط داخلي<span class="xt">&lt;/a&gt;</span>
+
+  <span class="xt">&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"https://google.com"</span>
+     <span class="xa">target</span><span class="xp">=</span><span class="xv">"_blank"</span>
+     <span class="xa">rel</span><span class="xp">=</span><span class="xv">"noopener noreferrer"</span><span class="xt">&gt;</span>
+    رابط خارجي — يفتح في تاب جديدة
+  <span class="xt">&lt;/a&gt;</span>
+
+  <span class="xc">&lt;!-- صورة --&gt;</span>
+  <span class="xt">&lt;img</span>
+    <span class="xa">src</span><span class="xp">=</span><span class="xv">"images/logo.png"</span>
+    <span class="xa">alt</span><span class="xp">=</span><span class="xv">"شعار Sunshine T Academy"</span>
+    <span class="xa">width</span><span class="xp">=</span><span class="xv">"200"</span>
+  <span class="xt">&gt;</span>
+
+  <span class="xc">&lt;!-- قائمة غير مرتبة --&gt;</span>
+  <span class="xt">&lt;ul&gt;</span>
+    <span class="xt">&lt;li&gt;</span>HTML<span class="xt">&lt;/li&gt;</span>
+    <span class="xt">&lt;li&gt;</span>CSS<span class="xt">&lt;/li&gt;</span>
+    <span class="xt">&lt;li&gt;</span>JavaScript<span class="xt">&lt;/li&gt;</span>
+  <span class="xt">&lt;/ul&gt;</span>
+
+  <span class="xc">&lt;!-- قائمة مرتبة --&gt;</span>
+  <span class="xt">&lt;ol&gt;</span>
+    <span class="xt">&lt;li&gt;</span>افتح VS Code<span class="xt">&lt;/li&gt;</span>
+    <span class="xt">&lt;li&gt;</span>اكتب الكود<span class="xt">&lt;/li&gt;</span>
+    <span class="xt">&lt;li&gt;</span>افتح في المتصفح<span class="xt">&lt;/li&gt;</span>
+  <span class="xt">&lt;/ol&gt;</span>
+
+  <span class="xc">&lt;!-- قائمة متداخلة --&gt;</span>
+  <span class="xt">&lt;ul&gt;</span>
+    <span class="xt">&lt;li&gt;</span>Frontend
+      <span class="xt">&lt;ul&gt;</span>
+        <span class="xt">&lt;li&gt;</span>HTML<span class="xt">&lt;/li&gt;</span>
+        <span class="xt">&lt;li&gt;</span>CSS<span class="xt">&lt;/li&gt;</span>
+      <span class="xt">&lt;/ul&gt;</span>
+    <span class="xt">&lt;/li&gt;</span>
+    <span class="xt">&lt;li&gt;</span>Backend<span class="xt">&lt;/li&gt;</span>
+  <span class="xt">&lt;/ul&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L03 ── -->
+  <div class="lecture-card" id="l03">
+    <div class="card-head" onclick="toggle('l03')">
+      <span class="lec-num">L03</span>
+      <div class="lec-info">
+        <div class="lec-title">Semantic HTML — عناصر ليها معنى</div>
+        <div class="lec-sub">header · nav · main · section · article · aside · footer · figure · time</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">div vs عناصر semantic</div>
+          <div class="topic-chip">&lt;header&gt; — رأس الصفحة</div>
+          <div class="topic-chip">&lt;nav&gt; — قائمة التنقل</div>
+          <div class="topic-chip">&lt;main&gt; — المحتوى الرئيسي</div>
+          <div class="topic-chip">&lt;section&gt; — قسم موضوعي</div>
+          <div class="topic-chip">&lt;article&gt; — محتوى مستقل</div>
+          <div class="topic-chip">&lt;aside&gt; — محتوى جانبي</div>
+          <div class="topic-chip">&lt;footer&gt; — تذييل</div>
+          <div class="topic-chip">&lt;figure&gt; + &lt;figcaption&gt;</div>
+          <div class="topic-chip">SEO + Accessibility</div>
+        </div>
+        <div class="concept-note">
+          <strong>ليه Semantic؟</strong> محركات البحث وقارئات الشاشة بتفهم هيكل الصفحة. &lt;div&gt; مش ليها معنى — &lt;header&gt; بتقول "أنا الرأس". &lt;main&gt; تستخدم <strong>مرة واحدة</strong> في الصفحة.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L03</span>
+        </div>
+        <pre><span class="xt">&lt;body&gt;</span>
+
+  <span class="xt">&lt;header&gt;</span>
+    <span class="xt">&lt;h1&gt;</span>Sunshine T Academy<span class="xt">&lt;/h1&gt;</span>
+    <span class="xt">&lt;nav&gt;</span>
+      <span class="xt">&lt;ul&gt;</span>
+        <span class="xt">&lt;li&gt;&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#"</span><span class="xt">&gt;</span>الرئيسية<span class="xt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="xt">&lt;li&gt;&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#courses"</span><span class="xt">&gt;</span>الكورسات<span class="xt">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="xt">&lt;/ul&gt;</span>
+    <span class="xt">&lt;/nav&gt;</span>
+  <span class="xt">&lt;/header&gt;</span>
+
+  <span class="xt">&lt;main&gt;</span>
+
+    <span class="xt">&lt;section</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"courses"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;h2&gt;</span>الكورسات المتاحة<span class="xt">&lt;/h2&gt;</span>
+
+      <span class="xt">&lt;article&gt;</span>
+        <span class="xt">&lt;h3&gt;</span>كورس Frontend<span class="xt">&lt;/h3&gt;</span>
+        <span class="xt">&lt;p&gt;</span>HTML · CSS · JavaScript<span class="xt">&lt;/p&gt;</span>
+        <span class="xt">&lt;figure&gt;</span>
+          <span class="xt">&lt;img</span> <span class="xa">src</span><span class="xp">=</span><span class="xv">"frontend.jpg"</span> <span class="xa">alt</span><span class="xp">=</span><span class="xv">"كود Frontend"</span><span class="xt">&gt;</span>
+          <span class="xt">&lt;figcaption&gt;</span>مثال على كود HTML<span class="xt">&lt;/figcaption&gt;</span>
+        <span class="xt">&lt;/figure&gt;</span>
+      <span class="xt">&lt;/article&gt;</span>
+
+    <span class="xt">&lt;/section&gt;</span>
+
+    <span class="xt">&lt;aside&gt;</span>
+      <span class="xt">&lt;h3&gt;</span>روابط مفيدة<span class="xt">&lt;/h3&gt;</span>
+      <span class="xt">&lt;p&gt;</span>محتوى جانبي مرتبط<span class="xt">&lt;/p&gt;</span>
+    <span class="xt">&lt;/aside&gt;</span>
+
+  <span class="xt">&lt;/main&gt;</span>
+
+  <span class="xt">&lt;footer&gt;</span>
+    <span class="xt">&lt;p&gt;</span>© <span class="xt">&lt;time</span> <span class="xa">datetime</span><span class="xp">=</span><span class="xv">"2025"</span><span class="xt">&gt;</span>2025<span class="xt">&lt;/time&gt;</span> Sunshine T Academy<span class="xt">&lt;/p&gt;</span>
+  <span class="xt">&lt;/footer&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L04 ── -->
+  <div class="lecture-card" id="l04">
+    <div class="card-head" onclick="toggle('l04')">
+      <span class="lec-num">L04</span>
+      <div class="lec-info">
+        <div class="lec-title">الجداول والنماذج (Forms)</div>
+        <div class="lec-sub">table · tr · th · td · form · input · label · select · textarea · button</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">&lt;table thead tbody tfoot&gt;</div>
+          <div class="topic-chip">colspan / rowspan</div>
+          <div class="topic-chip">&lt;form action method&gt;</div>
+          <div class="topic-chip">GET vs POST</div>
+          <div class="topic-chip">input types: text email password number</div>
+          <div class="topic-chip">radio vs checkbox</div>
+          <div class="topic-chip">&lt;label for&gt; + id</div>
+          <div class="topic-chip">&lt;select&gt; + &lt;option&gt;</div>
+          <div class="topic-chip">&lt;textarea&gt;</div>
+          <div class="topic-chip">required · placeholder · disabled</div>
+        </div>
+        <div class="concept-note">
+          <strong>القاعدة الذهبية:</strong> &lt;label for="x"&gt; لازم يشير لـ &lt;input id="x"&gt; — بيكبّر منطقة الضغط ويساعد Accessibility. required = validation مجاني من المتصفح بدون JS.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L04</span>
+        </div>
+        <pre><span class="xt">&lt;body&gt;</span>
+
+  <span class="xc">&lt;!-- جدول بسيط --&gt;</span>
+  <span class="xt">&lt;table</span> <span class="xa">border</span><span class="xp">=</span><span class="xv">"1"</span><span class="xt">&gt;</span>
+    <span class="xt">&lt;thead&gt;</span>
+      <span class="xt">&lt;tr&gt;</span>
+        <span class="xt">&lt;th&gt;</span>الاسم<span class="xt">&lt;/th&gt;</span>
+        <span class="xt">&lt;th&gt;</span>الدرجة<span class="xt">&lt;/th&gt;</span>
+        <span class="xt">&lt;th</span> <span class="xa">colspan</span><span class="xp">=</span><span class="xv">"2"</span><span class="xt">&gt;</span>التقييم<span class="xt">&lt;/th&gt;</span>
+      <span class="xt">&lt;/tr&gt;</span>
+    <span class="xt">&lt;/thead&gt;</span>
+    <span class="xt">&lt;tbody&gt;</span>
+      <span class="xt">&lt;tr&gt;</span>
+        <span class="xt">&lt;td&gt;</span>أحمد<span class="xt">&lt;/td&gt;</span>
+        <span class="xt">&lt;td&gt;</span>95<span class="xt">&lt;/td&gt;</span>
+        <span class="xt">&lt;td&gt;</span>ممتاز<span class="xt">&lt;/td&gt;</span>
+        <span class="xt">&lt;td&gt;</span>⭐⭐⭐<span class="xt">&lt;/td&gt;</span>
+      <span class="xt">&lt;/tr&gt;</span>
+    <span class="xt">&lt;/tbody&gt;</span>
+  <span class="xt">&lt;/table&gt;</span>
+
+  <span class="xc">&lt;!-- نموذج تسجيل --&gt;</span>
+  <span class="xt">&lt;form</span> <span class="xa">action</span><span class="xp">=</span><span class="xv">"/register"</span> <span class="xa">method</span><span class="xp">=</span><span class="xv">"POST"</span><span class="xt">&gt;</span>
+
+    <span class="xt">&lt;label</span> <span class="xa">for</span><span class="xp">=</span><span class="xv">"name"</span><span class="xt">&gt;</span>الاسم<span class="xt">&lt;/label&gt;</span>
+    <span class="xt">&lt;input</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"text"</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"name"</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"name"</span>
+           <span class="xa">placeholder</span><span class="xp">=</span><span class="xv">"أدخل اسمك"</span> <span class="xa">required</span><span class="xt">&gt;</span>
+
+    <span class="xt">&lt;label</span> <span class="xa">for</span><span class="xp">=</span><span class="xv">"email"</span><span class="xt">&gt;</span>البريد<span class="xt">&lt;/label&gt;</span>
+    <span class="xt">&lt;input</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"email"</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"email"</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"email"</span> <span class="xa">required</span><span class="xt">&gt;</span>
+
+    <span class="xt">&lt;label</span> <span class="xa">for</span><span class="xp">=</span><span class="xv">"level"</span><span class="xt">&gt;</span>المستوى<span class="xt">&lt;/label&gt;</span>
+    <span class="xt">&lt;select</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"level"</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"level"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;option</span> <span class="xa">value</span><span class="xp">=</span><span class="xv">"beginner"</span><span class="xt">&gt;</span>مبتدئ<span class="xt">&lt;/option&gt;</span>
+      <span class="xt">&lt;option</span> <span class="xa">value</span><span class="xp">=</span><span class="xv">"intermediate"</span><span class="xt">&gt;</span>متوسط<span class="xt">&lt;/option&gt;</span>
+    <span class="xt">&lt;/select&gt;</span>
+
+    <span class="xt">&lt;label</span> <span class="xa">for</span><span class="xp">=</span><span class="xv">"msg"</span><span class="xt">&gt;</span>رسالتك<span class="xt">&lt;/label&gt;</span>
+    <span class="xt">&lt;textarea</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"msg"</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"msg"</span> <span class="xa">rows</span><span class="xp">=</span><span class="xv">"4"</span><span class="xt">&gt;&lt;/textarea&gt;</span>
+
+    <span class="xt">&lt;button</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"submit"</span><span class="xt">&gt;</span>سجّل الآن<span class="xt">&lt;/button&gt;</span>
+
+  <span class="xt">&lt;/form&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L05 ── -->
+  <div class="lecture-card" id="l05">
+    <div class="card-head" onclick="toggle('l05')">
+      <span class="lec-num">L05</span>
+      <div class="lec-info">
+        <div class="lec-title">الوسائط والإعدادات المتقدمة للصفحة</div>
+        <div class="lec-sub">video · audio · iframe · meta SEO · favicon · Open Graph · picture · srcset</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">&lt;video controls autoplay muted&gt;</div>
+          <div class="topic-chip">&lt;audio controls loop&gt;</div>
+          <div class="topic-chip">&lt;iframe src&gt; — تضمين</div>
+          <div class="topic-chip">meta description — SEO</div>
+          <div class="topic-chip">Open Graph — مشاركة</div>
+          <div class="topic-chip">favicon — أيقونة التاب</div>
+          <div class="topic-chip">&lt;picture&gt; + &lt;source&gt;</div>
+          <div class="topic-chip">loading="lazy"</div>
+          <div class="topic-chip">srcset للصور المتجاوبة</div>
+        </div>
+        <div class="concept-note">
+          <strong>autoplay دايماً مع muted</strong> — المتصفحات الحديثة بتحجب الصوت التلقائي. loading="lazy" = تحسين الأداء مجاني بسطر واحد.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L05</span>
+        </div>
+        <pre><span class="xt">&lt;head&gt;</span>
+  <span class="xc">&lt;!-- SEO --&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"description"</span> <span class="xa">content</span><span class="xp">=</span><span class="xv">"كورس Frontend للمبتدئين"</span><span class="xt">&gt;</span>
+
+  <span class="xc">&lt;!-- Open Graph (Facebook / WhatsApp) --&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">property</span><span class="xp">=</span><span class="xv">"og:title"</span>       <span class="xa">content</span><span class="xp">=</span><span class="xv">"Sunshine T Academy"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">property</span><span class="xp">=</span><span class="xv">"og:image"</span>       <span class="xa">content</span><span class="xp">=</span><span class="xv">"share.jpg"</span><span class="xt">&gt;</span>
+
+  <span class="xc">&lt;!-- Favicon --&gt;</span>
+  <span class="xt">&lt;link</span> <span class="xa">rel</span><span class="xp">=</span><span class="xv">"icon"</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"favicon.ico"</span><span class="xt">&gt;</span>
+<span class="xt">&lt;/head&gt;</span>
+
+<span class="xt">&lt;body&gt;</span>
+
+  <span class="xc">&lt;!-- فيديو --&gt;</span>
+  <span class="xt">&lt;video</span> <span class="xa">controls</span> <span class="xa">width</span><span class="xp">=</span><span class="xv">"640"</span><span class="xt">&gt;</span>
+    <span class="xt">&lt;source</span> <span class="xa">src</span><span class="xp">=</span><span class="xv">"intro.mp4"</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"video/mp4"</span><span class="xt">&gt;</span>
+    المتصفح لا يدعم الفيديو
+  <span class="xt">&lt;/video&gt;</span>
+
+  <span class="xc">&lt;!-- صوت --&gt;</span>
+  <span class="xt">&lt;audio</span> <span class="xa">controls</span><span class="xt">&gt;</span>
+    <span class="xt">&lt;source</span> <span class="xa">src</span><span class="xp">=</span><span class="xv">"lesson.mp3"</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"audio/mpeg"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;/audio&gt;</span>
+
+  <span class="xc">&lt;!-- تضمين خريطة أو يوتيوب --&gt;</span>
+  <span class="xt">&lt;iframe</span>
+    <span class="xa">src</span><span class="xp">=</span><span class="xv">"https://www.youtube.com/embed/VIDEOID"</span>
+    <span class="xa">width</span><span class="xp">=</span><span class="xv">"560"</span> <span class="xa">height</span><span class="xp">=</span><span class="xv">"315"</span>
+    <span class="xa">allowfullscreen</span>
+  <span class="xt">&gt;&lt;/iframe&gt;</span>
+
+  <span class="xc">&lt;!-- صورة متجاوبة --&gt;</span>
+  <span class="xt">&lt;picture&gt;</span>
+    <span class="xt">&lt;source</span> <span class="xa">media</span><span class="xp">=</span><span class="xv">"(max-width: 600px)"</span> <span class="xa">srcset</span><span class="xp">=</span><span class="xv">"small.webp"</span><span class="xt">&gt;</span>
+    <span class="xt">&lt;img</span> <span class="xa">src</span><span class="xp">=</span><span class="xv">"large.webp"</span> <span class="xa">alt</span><span class="xp">=</span><span class="xv">"صورة متجاوبة"</span> <span class="xa">loading</span><span class="xp">=</span><span class="xv">"lazy"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;/picture&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ CSS TRACK ════════ -->
+  <div class="track-sep">
+    <div class="track-line"></div>
+    <div class="track-label track-css">🎨 مسار CSS — المحاضرات 6 → 12</div>
+    <div class="track-line"></div>
+  </div>
+
+  <!-- ── L06 ── -->
+  <div class="lecture-card" id="l06">
+    <div class="card-head" onclick="toggle('l06')">
+      <span class="lec-num css">L06</span>
+      <div class="lec-info">
+        <div class="lec-title">CSS Fundamentals — المحددات والألوان والوحدات</div>
+        <div class="lec-sub">selectors · specificity · colors · units · cascade · variables</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">Element · Class · ID Selectors</div>
+          <div class="topic-chip">Specificity: inline>id>class>el</div>
+          <div class="topic-chip">Cascade — الترتيب مهم</div>
+          <div class="topic-chip">px · em · rem · vw · vh · %</div>
+          <div class="topic-chip">color: hex · rgb · hsl</div>
+          <div class="topic-chip">background-color</div>
+          <div class="topic-chip">!important — تجنبه</div>
+          <div class="topic-chip">:hover · :focus · :nth-child</div>
+          <div class="topic-chip">::before · ::after</div>
+          <div class="topic-chip">CSS Variables (--var)</div>
+        </div>
+        <div class="concept-note">
+          <strong>قاعدة Specificity:</strong> Inline(1000) &gt; #id(100) &gt; .class(10) &gt; element(1). اللي عنده رقم أعلى يكسب. rem أفضل من px لأنه يحترم إعدادات المستخدم.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L06</span>
+        </div>
+        <pre><span class="xc">/* ── CSS Variables (Custom Properties) ── */</span>
+<span class="xt">:root</span> {
+  <span class="xa">--primary</span>:   <span class="xv">#4a7c59</span>;
+  <span class="xa">--gold</span>:      <span class="xv">#d4920a</span>;
+  <span class="xa">--text</span>:      <span class="xv">#2c1810</span>;
+  <span class="xa">--bg</span>:        <span class="xv">#faf7f2</span>;
+}
+
+<span class="xc">/* Element Selector */</span>
+<span class="xt">h1</span> { <span class="xa">color</span>: <span class="xv">var(--primary)</span>; }
+
+<span class="xc">/* Class Selector */</span>
+<span class="xt">.card</span> {
+  <span class="xa">background</span>: <span class="xv">var(--bg)</span>;
+  <span class="xa">color</span>: <span class="xv">var(--text)</span>;
+}
+
+<span class="xc">/* ID Selector */</span>
+<span class="xt">#hero</span> { <span class="xa">background-color</span>: <span class="xv">hsl(140, 30%, 90%)</span>; }
+
+<span class="xc">/* Pseudo-class */</span>
+<span class="xt">a:hover</span>       { <span class="xa">color</span>: <span class="xv">var(--gold)</span>; }
+<span class="xt">li:first-child</span>{ <span class="xa">font-weight</span>: <span class="xv">700</span>; }
+<span class="xt">li:nth-child(2n)</span> { <span class="xa">background</span>: <span class="xv">#eee</span>; } <span class="xc">/* الأزواج */</span>
+
+<span class="xc">/* Pseudo-element */</span>
+<span class="xt">.card::before</span> {
+  <span class="xa">content</span>: <span class="xv">'★'</span>;
+  <span class="xa">color</span>: <span class="xv">var(--gold)</span>;
+}
+
+<span class="xc">/* Combinators */</span>
+<span class="xt">nav > ul</span>  { <span class="xa">list-style</span>: <span class="xv">none</span>; }   <span class="xc">/* ابن مباشر */</span>
+<span class="xt">h1 + p</span>   { <span class="xa">margin-top</span>: <span class="xv">0</span>; }       <span class="xc">/* أخ مجاور */</span>
+
+<span class="xc">/* Attribute Selector */</span>
+<span class="xt">input[type="email"]</span> { <span class="xa">border-color</span>: <span class="xv">var(--primary)</span>; }</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L07 ── -->
+  <div class="lecture-card" id="l07">
+    <div class="card-head" onclick="toggle('l07')">
+      <span class="lec-num css">L07</span>
+      <div class="lec-info">
+        <div class="lec-title">الخطوط والـ Box Model</div>
+        <div class="lec-sub">font · text · margin · padding · border · box-sizing · border-radius · overflow</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">Content→Padding→Border→Margin</div>
+          <div class="topic-chip">box-sizing: border-box</div>
+          <div class="topic-chip">margin: 0 auto — توسيط</div>
+          <div class="topic-chip">Margin Collapse</div>
+          <div class="topic-chip">font-family · size · weight</div>
+          <div class="topic-chip">line-height: 1.6</div>
+          <div class="topic-chip">letter-spacing · word-spacing</div>
+          <div class="topic-chip">text-align · text-decoration</div>
+          <div class="topic-chip">border-radius · box-shadow</div>
+          <div class="topic-chip">overflow: hidden/scroll/auto</div>
+        </div>
+        <div class="concept-note">
+          <strong>أول حاجة في أي مشروع:</strong> <code>* &#123; box-sizing: border-box; &#125;</code> — بيخلي الـ width يشمل padding وborder. بدونه الحسابات بتجنّن.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L07</span>
+        </div>
+        <pre><span class="xc">/* ── Reset أساسي ── */</span>
+<span class="xt">*</span> {
+  <span class="xa">box-sizing</span>: <span class="xv">border-box</span>;
+  <span class="xa">margin</span>: <span class="xv">0</span>;
+  <span class="xa">padding</span>: <span class="xv">0</span>;
+}
+
+<span class="xt">body</span> {
+  <span class="xa">font-family</span>: <span class="xv">'Cairo', sans-serif</span>;
+  <span class="xa">font-size</span>: <span class="xv">1rem</span>;         <span class="xc">/* 16px */</span>
+  <span class="xa">line-height</span>: <span class="xv">1.6</span>;
+}
+
+<span class="xc">/* ── Box Model Demo ── */</span>
+<span class="xt">.card</span> {
+  <span class="xc">/* Content */</span>
+  <span class="xa">width</span>: <span class="xv">300px</span>;
+  <span class="xa">height</span>: <span class="xv">200px</span>;
+
+  <span class="xc">/* Padding (داخلي) */</span>
+  <span class="xa">padding</span>: <span class="xv">20px 24px</span>;    <span class="xc">/* top/bottom · left/right */</span>
+
+  <span class="xc">/* Border */</span>
+  <span class="xa">border</span>: <span class="xv">2px solid #4a7c59</span>;
+  <span class="xa">border-radius</span>: <span class="xv">12px</span>;
+
+  <span class="xc">/* Margin (خارجي) */</span>
+  <span class="xa">margin</span>: <span class="xv">0 auto</span>;        <span class="xc">/* توسيط أفقي */</span>
+
+  <span class="xa">box-shadow</span>: <span class="xv">0 4px 16px rgba(0,0,0,0.1)</span>;
+  <span class="xa">overflow</span>: <span class="xv">hidden</span>;
+}
+
+<span class="xc">/* ── Typography ── */</span>
+<span class="xt">h1</span> {
+  <span class="xa">font-size</span>: <span class="xv">2rem</span>;          <span class="xc">/* 32px */</span>
+  <span class="xa">font-weight</span>: <span class="xv">900</span>;
+  <span class="xa">letter-spacing</span>: <span class="xv">-0.02em</span>;
+  <span class="xa">text-align</span>: <span class="xv">center</span>;
+}
+
+<span class="xt">a</span> {
+  <span class="xa">text-decoration</span>: <span class="xv">none</span>;
+  <span class="xa">color</span>: <span class="xv">inherit</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L08 ── -->
+  <div class="lecture-card" id="l08">
+    <div class="card-head" onclick="toggle('l08')">
+      <span class="lec-num css">L08</span>
+      <div class="lec-info">
+        <div class="lec-title">Display و Position</div>
+        <div class="lec-sub">block · inline · inline-block · none · static · relative · absolute · fixed · sticky · z-index</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">display: block / inline / inline-block</div>
+          <div class="topic-chip">display: none vs visibility: hidden</div>
+          <div class="topic-chip">position: static (الافتراضي)</div>
+          <div class="topic-chip">position: relative — من مكانه</div>
+          <div class="topic-chip">position: absolute — من الأب</div>
+          <div class="topic-chip">position: fixed — على الشاشة</div>
+          <div class="topic-chip">position: sticky — يلزق</div>
+          <div class="topic-chip">top · right · bottom · left</div>
+          <div class="topic-chip">z-index — الطبقات</div>
+          <div class="topic-chip">الأب relative + الابن absolute</div>
+        </div>
+        <div class="concept-note">
+          <strong>القاعدة الأهم:</strong> عشان absolute يشتغل صح، الأب لازم يكون relative. z-index بيشتغل بس مع position غير static.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L08</span>
+        </div>
+        <pre><span class="xc">/* ── Display ── */</span>
+<span class="xt">span</span>  { <span class="xa">display</span>: <span class="xv">inline</span>; }        <span class="xc">/* نفس السطر — مش بيقبل width/height */</span>
+<span class="xt">div</span>   { <span class="xa">display</span>: <span class="xv">block</span>; }         <span class="xc">/* سطر كامل */</span>
+<span class="xt">.btn</span>  { <span class="xa">display</span>: <span class="xv">inline-block</span>; }  <span class="xc">/* نفس السطر + بيقبل width/height */</span>
+<span class="xt">.hide</span> { <span class="xa">display</span>: <span class="xv">none</span>; }          <span class="xc">/* اختفاء تام */</span>
+
+<span class="xc">/* ── Position: Navbar ثابت ── */</span>
+<span class="xt">nav</span> {
+  <span class="xa">position</span>: <span class="xv">fixed</span>;
+  <span class="xa">top</span>: <span class="xv">0</span>;
+  <span class="xa">left</span>: <span class="xv">0</span>;
+  <span class="xa">right</span>: <span class="xv">0</span>;
+  <span class="xa">z-index</span>: <span class="xv">1000</span>;
+  <span class="xa">background</span>: <span class="xv">white</span>;
+}
+
+<span class="xc">/* ── Absolute جوه Relative ── */</span>
+<span class="xt">.card</span> {
+  <span class="xa">position</span>: <span class="xv">relative</span>;  <span class="xc">/* الأب */</span>
+}
+
+<span class="xt">.badge</span> {
+  <span class="xa">position</span>: <span class="xv">absolute</span>;  <span class="xc">/* بيتحرك بالنسبة للـ .card */</span>
+  <span class="xa">top</span>: <span class="xv">10px</span>;
+  <span class="xa">left</span>: <span class="xv">10px</span>;
+}
+
+<span class="xc">/* ── Sticky Header ── */</span>
+<span class="xt">header</span> {
+  <span class="xa">position</span>: <span class="xv">sticky</span>;
+  <span class="xa">top</span>: <span class="xv">0</span>;
+  <span class="xa">z-index</span>: <span class="xv">100</span>;
+}
+
+<span class="xc">/* ── توسيط كامل بـ absolute ── */</span>
+<span class="xt">.centered</span> {
+  <span class="xa">position</span>: <span class="xv">absolute</span>;
+  <span class="xa">top</span>: <span class="xv">50%</span>;
+  <span class="xa">left</span>: <span class="xv">50%</span>;
+  <span class="xa">transform</span>: <span class="xv">translate(-50%, -50%)</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L09 ── -->
+  <div class="lecture-card" id="l09">
+    <div class="card-head" onclick="toggle('l09')">
+      <span class="lec-num css">L09</span>
+      <div class="lec-info">
+        <div class="lec-title">Flexbox — التخطيط أحادي البعد</div>
+        <div class="lec-sub">flex · direction · justify-content · align-items · gap · flex-grow · wrap · order</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">display: flex — Container</div>
+          <div class="topic-chip">flex-direction: row / column</div>
+          <div class="topic-chip">justify-content — Main Axis</div>
+          <div class="topic-chip">align-items — Cross Axis</div>
+          <div class="topic-chip">gap — مسافة بين العناصر</div>
+          <div class="topic-chip">flex-wrap: wrap</div>
+          <div class="topic-chip">flex: 1 — يملأ المساحة</div>
+          <div class="topic-chip">align-self — عنصر مستقل</div>
+          <div class="topic-chip">order — ترتيب بصري</div>
+          <div class="topic-chip">توسيط كامل بسطرين</div>
+        </div>
+        <div class="concept-note">
+          <strong>السحر:</strong> توسيط عنصر في الصفحة كان صعب قبل Flexbox — دلوقتي 3 سطور. justify-content = أفقي (في row). align-items = رأسي (في row).
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L09</span>
+        </div>
+        <pre><span class="xc">/* ── توسيط كامل (أشهر use case) ── */</span>
+<span class="xt">.center-all</span> {
+  <span class="xa">display</span>: <span class="xv">flex</span>;
+  <span class="xa">justify-content</span>: <span class="xv">center</span>;
+  <span class="xa">align-items</span>: <span class="xv">center</span>;
+  <span class="xa">min-height</span>: <span class="xv">100vh</span>;
+}
+
+<span class="xc">/* ── Navbar ── */</span>
+<span class="xt">nav</span> {
+  <span class="xa">display</span>: <span class="xv">flex</span>;
+  <span class="xa">justify-content</span>: <span class="xv">space-between</span>;
+  <span class="xa">align-items</span>: <span class="xv">center</span>;
+  <span class="xa">padding</span>: <span class="xv">16px 24px</span>;
+}
+
+<span class="xc">/* ── Cards Grid ── */</span>
+<span class="xt">.cards</span> {
+  <span class="xa">display</span>: <span class="xv">flex</span>;
+  <span class="xa">flex-wrap</span>: <span class="xv">wrap</span>;    <span class="xc">/* انزل لسطر جديد */</span>
+  <span class="xa">gap</span>: <span class="xv">20px</span>;
+}
+
+<span class="xt">.card</span> {
+  <span class="xa">flex</span>: <span class="xv">1 1 280px</span>;    <span class="xc">/* grow shrink basis */</span>
+}
+
+<span class="xc">/* ── Layout: Sidebar + Content ── */</span>
+<span class="xt">.layout</span> {
+  <span class="xa">display</span>: <span class="xv">flex</span>;
+  <span class="xa">gap</span>: <span class="xv">24px</span>;
+}
+
+<span class="xt">.sidebar</span> { <span class="xa">width</span>: <span class="xv">260px</span>; <span class="xa">flex-shrink</span>: <span class="xv">0</span>; }
+<span class="xt">.content</span> { <span class="xa">flex</span>: <span class="xv">1</span>; }  <span class="xc">/* يملأ باقي المساحة */</span>
+
+<span class="xc">/* ── Column Direction ── */</span>
+<span class="xt">.column-form</span> {
+  <span class="xa">display</span>: <span class="xv">flex</span>;
+  <span class="xa">flex-direction</span>: <span class="xv">column</span>;
+  <span class="xa">gap</span>: <span class="xv">12px</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L10 ── -->
+  <div class="lecture-card" id="l10">
+    <div class="card-head" onclick="toggle('l10')">
+      <span class="lec-num css">L10</span>
+      <div class="lec-info">
+        <div class="lec-title">CSS Grid — التخطيط ثنائي البعد</div>
+        <div class="lec-sub">grid · template-columns · template-rows · fr · gap · areas · span · auto-fit · minmax</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">display: grid</div>
+          <div class="topic-chip">grid-template-columns</div>
+          <div class="topic-chip">وحدة fr — fraction</div>
+          <div class="topic-chip">repeat(3, 1fr)</div>
+          <div class="topic-chip">grid-template-areas</div>
+          <div class="topic-chip">grid-column: span 2</div>
+          <div class="topic-chip">auto-fit + minmax</div>
+          <div class="topic-chip">place-items: center</div>
+          <div class="topic-chip">Flexbox vs Grid متى نستخدم</div>
+        </div>
+        <div class="concept-note">
+          <strong>متى Grid ومتى Flexbox؟</strong> Flexbox = سطر أو عمود (1D). Grid = صفوف وأعمدة مع بعض (2D). page layout = Grid. داخل المكون = Flexbox.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L10</span>
+        </div>
+        <pre><span class="xc">/* ── Page Layout كلاسيكي ── */</span>
+<span class="xt">.page</span> {
+  <span class="xa">display</span>: <span class="xv">grid</span>;
+  <span class="xa">grid-template-areas</span>:
+    <span class="xv">"header  header"</span>
+    <span class="xv">"nav     main"</span>
+    <span class="xv">"footer  footer"</span>;
+  <span class="xa">grid-template-columns</span>: <span class="xv">240px 1fr</span>;
+  <span class="xa">gap</span>: <span class="xv">20px</span>;
+}
+
+<span class="xt">header</span> { <span class="xa">grid-area</span>: <span class="xv">header</span>; }
+<span class="xt">nav</span>    { <span class="xa">grid-area</span>: <span class="xv">nav</span>; }
+<span class="xt">main</span>   { <span class="xa">grid-area</span>: <span class="xv">main</span>; }
+<span class="xt">footer</span> { <span class="xa">grid-area</span>: <span class="xv">footer</span>; }
+
+<span class="xc">/* ── Responsive Cards (بدون media queries!) ── */</span>
+<span class="xt">.cards</span> {
+  <span class="xa">display</span>: <span class="xv">grid</span>;
+  <span class="xa">grid-template-columns</span>: <span class="xv">repeat(auto-fit, minmax(260px, 1fr))</span>;
+  <span class="xa">gap</span>: <span class="xv">20px</span>;
+}
+
+<span class="xc">/* ── عنصر يمتد على عمودين ── */</span>
+<span class="xt">.featured</span> {
+  <span class="xa">grid-column</span>: <span class="xv">span 2</span>;
+}
+
+<span class="xc">/* ── توسيط كامل ── */</span>
+<span class="xt">.hero</span> {
+  <span class="xa">display</span>: <span class="xv">grid</span>;
+  <span class="xa">place-items</span>: <span class="xv">center</span>;  <span class="xc">/* justify + align */</span>
+  <span class="xa">min-height</span>: <span class="xv">100vh</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L11 ── -->
+  <div class="lecture-card" id="l11">
+    <div class="card-head" onclick="toggle('l11')">
+      <span class="lec-num css">L11</span>
+      <div class="lec-info">
+        <div class="lec-title">Responsive Web Design</div>
+        <div class="lec-sub">media queries · mobile-first · breakpoints · clamp() · rem · vw · flexible images</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">@media (min-width) — Mobile-first</div>
+          <div class="topic-chip">Breakpoints: 640 · 768 · 1024 · 1280</div>
+          <div class="topic-chip">clamp(min, preferred, max)</div>
+          <div class="topic-chip">max-width: 100% للصور</div>
+          <div class="topic-chip">Viewport meta tag</div>
+          <div class="topic-chip">rem vs px في Responsive</div>
+          <div class="topic-chip">Desktop-first vs Mobile-first</div>
+          <div class="topic-chip">Fluid Typography</div>
+        </div>
+        <div class="concept-note">
+          <strong>Mobile-first = min-width.</strong> اكتب CSS للموبايل الأول، ثم زيد للشاشات الكبيرة. clamp() = responsive بدون media query. أهم سطر في الـ head: <strong>meta viewport</strong>.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L11</span>
+        </div>
+        <pre><span class="xc">/* ── Mobile-first: ابدأ من الموبايل ── */</span>
+<span class="xt">.cards</span> {
+  <span class="xa">display</span>: <span class="xv">grid</span>;
+  <span class="xa">grid-template-columns</span>: <span class="xv">1fr</span>;    <span class="xc">/* موبايل: عمود واحد */</span>
+  <span class="xa">gap</span>: <span class="xv">16px</span>;
+}
+
+<span class="xc">/* Tablet — 768px فأكبر */</span>
+<span class="xt">@media (min-width: 768px)</span> {
+  <span class="xt">.cards</span> {
+    <span class="xa">grid-template-columns</span>: <span class="xv">repeat(2, 1fr)</span>;
+  }
+}
+
+<span class="xc">/* Desktop — 1024px فأكبر */</span>
+<span class="xt">@media (min-width: 1024px)</span> {
+  <span class="xt">.cards</span> {
+    <span class="xa">grid-template-columns</span>: <span class="xv">repeat(3, 1fr)</span>;
+  }
+}
+
+<span class="xc">/* ── Fluid Typography بـ clamp() ── */</span>
+<span class="xt">h1</span> {
+  <span class="xc">/* أصغر: 1.5rem · مفضل: 4vw · أكبر: 3rem */</span>
+  <span class="xa">font-size</span>: <span class="xv">clamp(1.5rem, 4vw, 3rem)</span>;
+}
+
+<span class="xc">/* ── صور متجاوبة ── */</span>
+<span class="xt">img</span> {
+  <span class="xa">max-width</span>: <span class="xv">100%</span>;
+  <span class="xa">height</span>: <span class="xv">auto</span>;
+}
+
+<span class="xc">/* ── إخفاء عنصر على الموبايل ── */</span>
+<span class="xt">.desktop-only</span> { <span class="xa">display</span>: <span class="xv">none</span>; }
+
+<span class="xt">@media (min-width: 1024px)</span> {
+  <span class="xt">.desktop-only</span> { <span class="xa">display</span>: <span class="xv">block</span>; }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L12 ── -->
+  <div class="lecture-card" id="l12">
+    <div class="card-head" onclick="toggle('l12')">
+      <span class="lec-num css">L12</span>
+      <div class="lec-info">
+        <div class="lec-title">Advanced CSS — الحركات والتأثيرات</div>
+        <div class="lec-sub">transition · transform · animation · gradient · filter · CSS Variables · shadow</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">transition: property duration ease</div>
+          <div class="topic-chip">transform: translate/scale/rotate</div>
+          <div class="topic-chip">@keyframes + animation</div>
+          <div class="topic-chip">linear-gradient / radial-gradient</div>
+          <div class="topic-chip">filter: blur / brightness / grayscale</div>
+          <div class="topic-chip">backdrop-filter: blur</div>
+          <div class="topic-chip">box-shadow: inset</div>
+          <div class="topic-chip">calc() — حسابات مختلطة</div>
+          <div class="topic-chip">will-change: transform</div>
+        </div>
+        <div class="concept-note">
+          <strong>قاعدة الأداء:</strong> animate فقط transform و opacity — هما الأسرع (GPU). تجنب animation على width/height/top/left.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">style.css — L12</span>
+        </div>
+        <pre><span class="xc">/* ── Transition (hover effect) ── */</span>
+<span class="xt">.btn</span> {
+  <span class="xa">background</span>: <span class="xv">#4a7c59</span>;
+  <span class="xa">transform</span>: <span class="xv">translateY(0)</span>;
+  <span class="xa">transition</span>: <span class="xv">transform 0.25s ease, box-shadow 0.25s ease</span>;
+}
+
+<span class="xt">.btn:hover</span> {
+  <span class="xa">transform</span>: <span class="xv">translateY(-4px)</span>;
+  <span class="xa">box-shadow</span>: <span class="xv">0 12px 24px rgba(74,124,89,0.35)</span>;
+}
+
+<span class="xc">/* ── Gradient ── */</span>
+<span class="xt">.hero</span> {
+  <span class="xa">background</span>: <span class="xv">linear-gradient(135deg, #0a1628 0%, #1a3060 100%)</span>;
+}
+
+<span class="xc">/* ── @keyframes Animation ── */</span>
+<span class="xt">@keyframes</span> <span class="xa">fadeSlideUp</span> {
+  <span class="xv">from</span> { <span class="xa">opacity</span>: <span class="xv">0</span>; <span class="xa">transform</span>: <span class="xv">translateY(30px)</span>; }
+  <span class="xv">to</span>   { <span class="xa">opacity</span>: <span class="xv">1</span>; <span class="xa">transform</span>: <span class="xv">translateY(0)</span>; }
+}
+
+<span class="xt">.hero-text</span> {
+  <span class="xa">animation</span>: <span class="xv">fadeSlideUp 0.6s ease forwards</span>;
+}
+
+<span class="xc">/* ── Glassmorphism ── */</span>
+<span class="xt">.glass</span> {
+  <span class="xa">background</span>: <span class="xv">rgba(255, 255, 255, 0.1)</span>;
+  <span class="xa">backdrop-filter</span>: <span class="xv">blur(12px)</span>;
+  <span class="xa">border</span>: <span class="xv">1px solid rgba(255,255,255,0.2)</span>;
+}
+
+<span class="xc">/* ── calc() ── */</span>
+<span class="xt">.sidebar</span> {
+  <span class="xa">width</span>: <span class="xv">calc(100% - 280px - 24px)</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ FINAL TRACK ════════ -->
+  <div class="track-sep">
+    <div class="track-line"></div>
+    <div class="track-label track-final">🏆 المشاريع والتوظيف — المحاضرات 13 → 14</div>
+    <div class="track-line"></div>
+  </div>
+
+  <!-- ── L13 ── -->
+  <div class="lecture-card" id="l13">
+    <div class="card-head" onclick="toggle('l13')">
+      <span class="lec-num final">L13</span>
+      <div class="lec-info">
+        <div class="lec-title">Best Practices + Git + Deployment</div>
+        <div class="lec-sub">clean code · BEM · git init/commit/push · GitHub Pages · Netlify · SEO</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">Clean Code — تسمية واضحة</div>
+          <div class="topic-chip">BEM: .block__element--modifier</div>
+          <div class="topic-chip">DRY: لا تكرار</div>
+          <div class="topic-chip">git init · add · commit · push</div>
+          <div class="topic-chip">GitHub Pages — نشر مجاني</div>
+          <div class="topic-chip">Netlify — CI/CD تلقائي</div>
+          <div class="topic-chip">Minification — تقليل الحجم</div>
+          <div class="topic-chip">Lighthouse — قياس الأداء</div>
+          <div class="topic-chip">HTTPS + favicon + robots.txt</div>
+          <div class="topic-chip">README.md جيد</div>
+        </div>
+        <div class="concept-note">
+          <strong>Git أهم من أي مكتبة:</strong> كل كودك على GitHub. كل مشروع README واضح. اكتب commits تنفع تقرأها بعد سنة.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">Terminal + BEM Example</span>
+        </div>
+        <pre><span class="xc"># ── Git: أوامر أساسية ──</span>
+<span class="xt">git init</span>                          <span class="xc"># ابدأ repo جديد</span>
+<span class="xt">git add .</span>                         <span class="xc"># stage كل الملفات</span>
+<span class="xt">git commit -m "feat: add navbar"</span>  <span class="xc"># احفظ نقطة</span>
+<span class="xt">git push origin main</span>             <span class="xc"># ارفع على GitHub</span>
+
+<span class="xc">---</span>
+
+<span class="xc">/* ── BEM Naming ── */</span>
+
+<span class="xc">/* Block */</span>
+<span class="xt">.card</span>              { }
+
+<span class="xc">/* Element (جزء من الـ block) */</span>
+<span class="xt">.card__title</span>       { }
+<span class="xt">.card__image</span>       { }
+<span class="xt">.card__btn</span>         { }
+
+<span class="xc">/* Modifier (حالة مختلفة) */</span>
+<span class="xt">.card--featured</span>    { <span class="xa">border-color</span>: <span class="xv">gold</span>; }
+<span class="xt">.card__btn--disabled</span> { <span class="xa">opacity</span>: <span class="xv">0.5</span>; }
+
+<span class="xc">---</span>
+
+<span class="xc">/* ── CSS منظم بـ Sections ── */</span>
+
+<span class="xc">/* ═══════════════════
+   1. CSS Variables
+═══════════════════ */</span>
+
+<span class="xc">/* ═══════════════════
+   2. Reset
+═══════════════════ */</span>
+
+<span class="xc">/* ═══════════════════
+   3. Layout
+═══════════════════ */</span>
+
+<span class="xc">/* ═══════════════════
+   4. Components
+═══════════════════ */</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── L14 ── -->
+  <div class="lecture-card" id="l14">
+    <div class="card-head" onclick="toggle('l14')">
+      <span class="lec-num final">L14</span>
+      <div class="lec-info">
+        <div class="lec-title">المشروع النهائي — Portfolio Website كامل</div>
+        <div class="lec-sub">portfolio structure · hero · about · skills · projects · contact · deploy</div>
+      </div>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="topics-wrap">
+        <div class="topics-title">// مفاهيم المحاضرة</div>
+        <div class="topics-grid">
+          <div class="topic-chip">هيكل مشروع Portfolio كامل</div>
+          <div class="topic-chip">Hero Section</div>
+          <div class="topic-chip">About + Skills</div>
+          <div class="topic-chip">Projects Grid</div>
+          <div class="topic-chip">Contact Form</div>
+          <div class="topic-chip">Dark/Light Mode بـ CSS Variable</div>
+          <div class="topic-chip">Smooth Scroll + Active Nav</div>
+          <div class="topic-chip">نشر على GitHub Pages</div>
+          <div class="topic-chip">Custom Domain</div>
+          <div class="topic-chip">ما يطلبه صاحب العمل</div>
+        </div>
+        <div class="concept-note">
+          <strong>الهدف:</strong> تخرج بموقع Portfolio شغال على الإنترنت — هو بطاقة هويتك. كل كود كتبته في الكورس بيظهر هنا.
+        </div>
+      </div>
+      <div class="code-section">
+        <div class="code-toolbar">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-lang">index.html — L14 Portfolio Skeleton</span>
+        </div>
+        <pre><span class="xt">&lt;!DOCTYPE html&gt;</span>
+<span class="xt">&lt;html</span> <span class="xa">lang</span><span class="xp">=</span><span class="xv">"ar"</span> <span class="xa">dir</span><span class="xp">=</span><span class="xv">"rtl"</span> <span class="xa">data-theme</span><span class="xp">=</span><span class="xv">"light"</span><span class="xt">&gt;</span>
+<span class="xt">&lt;head&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">charset</span><span class="xp">=</span><span class="xv">"UTF-8"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"viewport"</span> <span class="xa">content</span><span class="xp">=</span><span class="xv">"width=device-width, initial-scale=1"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;meta</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"description"</span> <span class="xa">content</span><span class="xp">=</span><span class="xv">"Portfolio — مطور Frontend"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;link</span> <span class="xa">rel</span><span class="xp">=</span><span class="xv">"icon"</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"favicon.ico"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;link</span> <span class="xa">rel</span><span class="xp">=</span><span class="xv">"stylesheet"</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"css/style.css"</span><span class="xt">&gt;</span>
+  <span class="xt">&lt;title&gt;</span>اسمك — Frontend Developer<span class="xt">&lt;/title&gt;</span>
+<span class="xt">&lt;/head&gt;</span>
+<span class="xt">&lt;body&gt;</span>
+
+  <span class="xt">&lt;header&gt;</span>
+    <span class="xt">&lt;nav</span> <span class="xa">class</span><span class="xp">=</span><span class="xv">"navbar"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#"</span> <span class="xa">class</span><span class="xp">=</span><span class="xv">"logo"</span><span class="xt">&gt;</span>اسمك<span class="xt">&lt;/a&gt;</span>
+      <span class="xt">&lt;ul&gt;</span>
+        <span class="xt">&lt;li&gt;&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#about"</span><span class="xt">&gt;</span>من أنا<span class="xt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="xt">&lt;li&gt;&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#projects"</span><span class="xt">&gt;</span>أعمالي<span class="xt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="xt">&lt;li&gt;&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#contact"</span><span class="xt">&gt;</span>تواصل<span class="xt">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="xt">&lt;/ul&gt;</span>
+    <span class="xt">&lt;/nav&gt;</span>
+  <span class="xt">&lt;/header&gt;</span>
+
+  <span class="xt">&lt;main&gt;</span>
+
+    <span class="xt">&lt;section</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"hero"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;h1&gt;</span>مرحبًا، أنا <span class="xt">&lt;span&gt;</span>اسمك<span class="xt">&lt;/span&gt;</span><span class="xt">&lt;/h1&gt;</span>
+      <span class="xt">&lt;p&gt;</span>Frontend Developer — أبني مواقع سريعة وجميلة<span class="xt">&lt;/p&gt;</span>
+      <span class="xt">&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#projects"</span> <span class="xa">class</span><span class="xp">=</span><span class="xv">"btn"</span><span class="xt">&gt;</span>شوف أعمالي<span class="xt">&lt;/a&gt;</span>
+    <span class="xt">&lt;/section&gt;</span>
+
+    <span class="xt">&lt;section</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"projects"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;h2&gt;</span>أعمالي<span class="xt">&lt;/h2&gt;</span>
+      <span class="xt">&lt;div</span> <span class="xa">class</span><span class="xp">=</span><span class="xv">"projects-grid"</span><span class="xt">&gt;</span>
+        <span class="xc">&lt;!-- كارت مشروع × 3 --&gt;</span>
+        <span class="xt">&lt;article</span> <span class="xa">class</span><span class="xp">=</span><span class="xv">"project-card"</span><span class="xt">&gt;</span>
+          <span class="xt">&lt;img</span> <span class="xa">src</span><span class="xp">=</span><span class="xv">"img/project1.jpg"</span> <span class="xa">alt</span><span class="xp">=</span><span class="xv">"اسم المشروع"</span> <span class="xa">loading</span><span class="xp">=</span><span class="xv">"lazy"</span><span class="xt">&gt;</span>
+          <span class="xt">&lt;h3&gt;</span>اسم المشروع<span class="xt">&lt;/h3&gt;</span>
+          <span class="xt">&lt;p&gt;</span>HTML · CSS · Responsive<span class="xt">&lt;/p&gt;</span>
+          <span class="xt">&lt;a</span> <span class="xa">href</span><span class="xp">=</span><span class="xv">"#"</span> <span class="xa">target</span><span class="xp">=</span><span class="xv">"_blank"</span><span class="xt">&gt;</span>شاهد المشروع<span class="xt">&lt;/a&gt;</span>
+        <span class="xt">&lt;/article&gt;</span>
+      <span class="xt">&lt;/div&gt;</span>
+    <span class="xt">&lt;/section&gt;</span>
+
+    <span class="xt">&lt;section</span> <span class="xa">id</span><span class="xp">=</span><span class="xv">"contact"</span><span class="xt">&gt;</span>
+      <span class="xt">&lt;h2&gt;</span>تواصل معي<span class="xt">&lt;/h2&gt;</span>
+      <span class="xt">&lt;form</span> <span class="xa">action</span><span class="xp">=</span><span class="xv">"https://formspree.io/f/YOUR_ID"</span> <span class="xa">method</span><span class="xp">=</span><span class="xv">"POST"</span><span class="xt">&gt;</span>
+        <span class="xt">&lt;input</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"text"</span>  <span class="xa">name</span><span class="xp">=</span><span class="xv">"name"</span>    <span class="xa">placeholder</span><span class="xp">=</span><span class="xv">"اسمك"</span>    <span class="xa">required</span><span class="xt">&gt;</span>
+        <span class="xt">&lt;input</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"email"</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"email"</span>   <span class="xa">placeholder</span><span class="xp">=</span><span class="xv">"إيميلك"</span>  <span class="xa">required</span><span class="xt">&gt;</span>
+        <span class="xt">&lt;textarea</span> <span class="xa">name</span><span class="xp">=</span><span class="xv">"message"</span> <span class="xa">placeholder</span><span class="xp">=</span><span class="xv">"رسالتك"</span> <span class="xa">required</span><span class="xt">&gt;&lt;/textarea&gt;</span>
+        <span class="xt">&lt;button</span> <span class="xa">type</span><span class="xp">=</span><span class="xv">"submit"</span><span class="xt">&gt;</span>إرسال<span class="xt">&lt;/button&gt;</span>
+      <span class="xt">&lt;/form&gt;</span>
+    <span class="xt">&lt;/section&gt;</span>
+
+  <span class="xt">&lt;/main&gt;</span>
+
+  <span class="xt">&lt;footer&gt;</span>
+    <span class="xt">&lt;p&gt;</span>© 2025 اسمك — All Rights Reserved<span class="xt">&lt;/p&gt;</span>
+  <span class="xt">&lt;/footer&gt;</span>
+
+<span class="xt">&lt;/body&gt;</span>
+<span class="xt">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end wrapper -->
+
+<footer>
+  <span>SUNSHINE T ACADEMY</span> · خريطة كورس Frontend · 14 محاضرة · <span>بنحول الحلم لكود</span>
+</footer>
+
+<script>
+function toggle(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+// فتح L01 افتراضياً
+document.getElementById('l01').classList.add('open');
+</script>
+</body>
+</html>
